@@ -12,13 +12,13 @@ def puts_histogram(the_array)
   end
 end
 
-def simulate_games(games_to_simulate)
+def simulate_games(games_to_simulate, options)
   board = Board.new
-  frequency_of_turns = Array.new 151, 0
+  frequency_of_turns = Array.new options[:max_turns]+1, 0
   number_of_wins = games_simulated = 0
 
   (1..games_to_simulate).each do |game_number|
-    game = Game.new board: board
+    game = Game.new board: board, max_turns: options[:max_turns]
     game.simulate
 
     games_simulated += 1
@@ -34,7 +34,7 @@ def simulate_games(games_to_simulate)
   return { frequency_of_turns: frequency_of_turns, number_of_wins: number_of_wins, games_simulated: games_simulated }
 end
 
-options = { games_to_simulate: 1000000, number_of_threads: 1 }
+options = { games_to_simulate: 1000000, number_of_threads: 1, max_turns: 150 }
 opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options]"
 
@@ -44,6 +44,10 @@ opt_parser = OptionParser.new do |opts|
 
   opts.on('-t THREADS', '--threads THREADS', Integer, "Number of Threads to use [#{options[:number_of_threads]}]") do |t|
     options[:number_of_threads] = t
+  end
+
+  opts.on('--max-turns TURNS', Integer, "Max number of turns to let a game go for [#{options[:max_turns]}]") do |t|
+    options[:max_turns] = t
   end
 
   opts.on_tail('-h', '--help', 'Show this message') do
@@ -60,11 +64,11 @@ puts "Simulating #{games_to_simulate} games of chutes and ladders on #{number_of
 
 threads = []
 number_of_threads.times do |i|
-  threads[i] = Thread.new { Thread.current[:results] = simulate_games(games_to_simulate/number_of_threads) }
+  threads[i] = Thread.new { Thread.current[:results] = simulate_games(games_to_simulate/number_of_threads, options) }
 end
 
 thread_results = []
-frequency_of_turns = Array.new 151, 0
+frequency_of_turns = Array.new options[:max_turns]+1, 0
 threads.each do |t|
   t.join
   thread_results << t[:results]
