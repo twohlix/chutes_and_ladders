@@ -13,3 +13,7 @@ Usage: test.rb [options]
         --max-turns TURNS            Max number of turns to let a game go for [150]
     -h, --help                       Show this message
 ```
+
+## Credits
+
+Ethan Markowitz and his article analyzing chutes and ladder: http://ethanmarkowitz.com/index.php/2015/05/24/hacking-chutes-and-ladders-using-r/
