@@ -1,7 +1,9 @@
-# chutes_and_ladders
-Chutes and Ladders simulator in Ruby
+# Chutes and Ladders
+Chutes and Ladders simulator in Ruby that outputs a histogram of turns it takes to win.
 
-```ruby test.rb```
+Multithreaded speedup supported with ```--threads N``` option in JRuby or Rubinius. The standard MRI you will so no speedup with multiple threads due to the Global Interpreter Lock (GIL).
+
+Just run ```ruby test.rb```
 
 ```
 ruby test.rb --help
