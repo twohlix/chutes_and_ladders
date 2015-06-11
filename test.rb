@@ -68,6 +68,7 @@ number_of_threads.times do |i|
 end
 
 thread_results = []
+number_of_wins = games_simulated = 0
 frequency_of_turns = Array.new options[:max_turns]+1, 0
 threads.each do |t|
   t.join
@@ -75,7 +76,9 @@ threads.each do |t|
   thread_results[-1][:frequency_of_turns].each_index do |index|
     frequency_of_turns[index] += thread_results[-1][:frequency_of_turns][index]
   end
+  number_of_wins  += thread_results[-1][:number_of_wins]
+  games_simulated += thread_results[-1][:games_simulated]
 end
 
 puts_histogram frequency_of_turns
-#puts "#{number_of_wins} games won of #{games_simulated} simulated games"
+puts "#{number_of_wins} games won of #{games_simulated} simulated games"
