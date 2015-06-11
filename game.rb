@@ -1,7 +1,7 @@
 require_relative 'board.rb'
 
 class Game
-  def initialize(options={})
+  def initialize(options = {})
     player_count = options[:player_count] || 2
     @spinner_minimum = options[:spinner_min] || 1
     @spinner_maximum = options[:spinner_max] || 6
@@ -12,6 +12,8 @@ class Game
     @players = Array.new player_count, 0
     @won = false
   end
+
+  attr_reader :turns
 
   def take_turn
     @turns += 1
@@ -31,10 +33,6 @@ class Game
 
   def roll
     rand(@spinner_length) + @spinner_minimum
-  end
-
-  def turns
-    @turns
   end
 
   def won?
