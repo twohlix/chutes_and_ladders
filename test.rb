@@ -34,6 +34,13 @@ def simulate_games(games_to_simulate, options)
   return { frequency_of_turns: frequency_of_turns, number_of_wins: number_of_wins, games_simulated: games_simulated }
 end
 
+def minimum_turns
+  board = Board.new
+  game = Game.new board: board
+
+  puts "#{game.minimum_turns_required} is the minimum number of turns to win this board"
+end
+
 options = { games_to_simulate: 1000000, number_of_threads: 1, max_turns: 150 }
 opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{__FILE__} [options]"
@@ -48,6 +55,11 @@ opt_parser = OptionParser.new do |opts|
 
   opts.on('--max-turns TURNS', Integer, "Max number of turns to let a game go for [#{options[:max_turns]}]") do |t|
     options[:max_turns] = t
+  end
+
+  opts.on('-s', '--solve', "Returns fewest number of turns to win the game") do
+    minimum_turns
+    exit
   end
 
   opts.on_tail('-h', '--help', 'Show this message') do

@@ -43,4 +43,26 @@ class Game
     while take_turn
     end
   end
+
+  def minimum_turns_required
+    current_turn = 0
+    previous_turns_results = [0]
+
+    testing = true
+    while(testing) do
+      current_turn += 1
+      puts "Testing Turn #{current_turn}"
+
+      this_turns_results = []
+      (@spinner_minimum..@spinner_maximum).each do |roll|
+        previous_turns_results.each do |starting_space|
+          this_move = @board.move_from starting_space, roll
+          return current_turn if this_move.nil? || this_move >= @board.max
+          this_turns_results << this_move
+        end
+      end
+
+      previous_turns_results = this_turns_results
+    end
+  end
 end
